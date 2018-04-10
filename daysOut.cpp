@@ -30,31 +30,23 @@
 using namespace std;
 
 int numEmployees(); //to return the number of employees in the company
-int daysMissed(string, int); //to generate a file and return total days missed
+int daysMissed(ofstream &outputFile, int); //to generate a file and return total days missed
 double averager(int, int); //to return the average number of days absent
 
 int main() {
 
 	string filename = "employeeAbsences.txt";
-
+	
 	//Create output stream for entered data
 	ofstream outputFile;
 	outputFile.open(filename);
 
-	//Send headers to file 
-	outputFile << "EMPLOYEE ABSENCE REPORT" << endl;
-	outputFile << "Employee ID    Days Absent" << endl;
-
-	//Close file to allow daysMissed() function to write
-	outputFile.close();
-
 	//Console header
 	cout << "Calculate the average number of days a company's employees are absent." << endl << endl;
 	
-	//Calculate average and write to file; close file at completion - THIS OVERWRITES WHAT CURRENTLY EXISTS
+	//Calculate average and write to file; close file at completion - 
 	int numberOfEmployees = numEmployees();
-	double average = averager(numberOfEmployees, daysMissed(filename, numberOfEmployees));
-	outputFile.open(filename);
+	double average = averager(numberOfEmployees, daysMissed(outputFile, numberOfEmployees));
 	outputFile << "The average number of days absent is " << showpoint << fixed << setprecision(1) << average
 		<< " days.";
 	outputFile << "\n\nProgrammer: Michael Meyers";
@@ -69,21 +61,23 @@ int numEmployees() {
 	int empQty; //to hold the quantity of employees
 	cout << "Please enter the number of employees in the company: ";
 	cin >> empQty;
-	while (empQty <= 0){ //Validate
+	//Validate
+	while (empQty <= 0){ 
 		cout << "Employees cannot be less than 1. Please re-enter: ";
 		cin >> empQty;
 	}
 	return empQty;
 }
 
+
 //Function to prompt for employee ID and days out for each employee specified in numEmployees()
-int daysMissed(string filename, int numEmployees) {
+int daysMissed(ofstream &outputFile, int numEmployees) {
 	int empID, daysOut; //to hold entered information
 	int totalDaysOut = 0; //running total to be returned at end of function
 
-	//Open the output file - THIS OVERWRITES WHAT CURRENTLY EXISTS
-	ofstream outputFile;
-	outputFile.open(filename);
+	//Send headers to file 
+	outputFile << "EMPLOYEE ABSENCE REPORT" << endl;
+	outputFile << "Employee ID    Days Absent" << endl;
 
 	for (int i = 1; i <= numEmployees; i++) {
 		//input information from user
@@ -91,20 +85,21 @@ int daysMissed(string filename, int numEmployees) {
 		cin >> empID;
 		cout << "Please enter the number of days this employee was absent: ";
 		cin >> daysOut;
-		while (daysOut < 0){ //Validate
-			cout << "Days ou cannot be negative. Please re-enter: ";
+		//Validate
+		while (daysOut < 0){ 
+			cout << "Days out cannot be negative. Please re-enter: ";
 			cin >> daysOut;
 		}
 
 		//add to file and running total
-		outputFile << setw(4) << empID << "      ";
-		outputFile << setw(4) << daysOut << endl;
+		outputFile << setw(8) << empID;
+		outputFile << setw(10) << daysOut << endl;
 		totalDaysOut += daysOut;
 	}
 
-	cout << "Programmer: Michael Meyers";
+	cout << "\nProgrammer: Michael Meyers" << endl;
 
-	outputFile.close();
+	//outputFile.close();
 	return totalDaysOut;
 }
 
