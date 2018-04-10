@@ -25,13 +25,12 @@
 
 #include<iostream>
 #include<fstream>
-#include<string>
 #include<iomanip>
 using namespace std;
 
 int numEmployees(); //to return the number of employees in the company
-int daysMissed(ofstream &outputFile, int); //to generate a file and return total days missed
-double averager(int, int); //to return the average number of days absent
+double daysMissed(ofstream&, int); //to generate a file and return total days missed
+double averager(int, double); //to return the average number of days absent
 
 int main() {
 
@@ -44,7 +43,7 @@ int main() {
 	//Console header
 	cout << "Calculate the average number of days a company's employees are absent." << endl << endl;
 	
-	//Calculate average and write to file; close file at completion - 
+	//Calculate average and write to file; close file at completion 
 	int numberOfEmployees = numEmployees();
 	double average = averager(numberOfEmployees, daysMissed(outputFile, numberOfEmployees));
 	outputFile << "The average number of days absent is " << showpoint << fixed << setprecision(1) << average
@@ -58,7 +57,7 @@ int main() {
 
 //Function to prompt for number of employees
 int numEmployees() {
-	int empQty; //to hold the quantity of employees
+	int empQty; //To hold the quantity of employees
 	cout << "Please enter the number of employees in the company: ";
 	cin >> empQty;
 	//Validate
@@ -71,16 +70,16 @@ int numEmployees() {
 
 
 //Function to prompt for employee ID and days out for each employee specified in numEmployees()
-int daysMissed(ofstream &outputFile, int numEmployees) {
-	int empID, daysOut; //to hold entered information
-	int totalDaysOut = 0; //running total to be returned at end of function
+double daysMissed(ofstream &outputFile, int numEmployees) {
+	int empID, daysOut; //To hold entered information
+	int totalDaysOut = 0; //Running total to be returned at end of function
 
 	//Send headers to file 
 	outputFile << "EMPLOYEE ABSENCE REPORT" << endl;
 	outputFile << "Employee ID    Days Absent" << endl;
 
 	for (int i = 1; i <= numEmployees; i++) {
-		//input information from user
+		//Input information from user
 		cout << "Please enter an employee ID: ";
 		cin >> empID;
 		cout << "Please enter the number of days this employee was absent: ";
@@ -91,7 +90,7 @@ int daysMissed(ofstream &outputFile, int numEmployees) {
 			cin >> daysOut;
 		}
 
-		//add to file and running total
+		//Add to file and running total
 		outputFile << setw(8) << empID;
 		outputFile << setw(10) << daysOut << endl;
 		totalDaysOut += daysOut;
@@ -99,12 +98,11 @@ int daysMissed(ofstream &outputFile, int numEmployees) {
 
 	cout << "\nProgrammer: Michael Meyers" << endl;
 
-	//outputFile.close();
 	return totalDaysOut;
 }
 
 //Take the results of the previous two functions and return average
-double averager(int employees, int daysOut) {
+double averager(int employees, double daysOut) {
 	double averageDaysOut = (daysOut / employees);
 	return averageDaysOut;
 }
