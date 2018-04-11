@@ -96,7 +96,10 @@ double daysMissed(ofstream &outputFile, int numEmployees) {
 		totalDaysOut += daysOut;
 	}
 
-	cout << "\nProgrammer: Michael Meyers" << endl;
+	outputFile << "\nThe " << numEmployees << " employees were absent a total of "
+		<< totalDaysOut << " days." << endl;
+
+	cout << "\nProgrammer: Michael Meyers" << endl; //Send Programmer Name to console output
 
 	return totalDaysOut;
 }
